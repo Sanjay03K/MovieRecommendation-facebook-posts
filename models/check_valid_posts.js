@@ -21,7 +21,6 @@ function check_movies_in_posts(posts, callback) {
                 var lower_posts = posts[i].toLowerCase();
                 var lower_movies = rows[j][1].toLowerCase();
                 if (lower_posts.indexOf(lower_movies)!=-1) {
-                    console.log(similarity(lower_posts,lower_movies));
                     get_movie_details(rows[j][1], lower_posts, movie_likability, (results)=>{
                         obtained_movies.push(results)
                     })
