@@ -8,7 +8,7 @@ var cors = require("cors");
 
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: "*",
     credentials: true,
   })
 );
@@ -50,7 +50,7 @@ app.post('/recieve_posts_ui',(req,res)=>{
   console.log(arr_postsUi);
   check.check_movies_in_posts(arr_postsUi, (result)=>{
     if (result.length!=0) {
-      res.send("<h1>Obtained movies lists from FB posts</h1>")
+      res.send(result);
     }
     else{
       res.send("<h1>No movies available in FB posts</h1>")
