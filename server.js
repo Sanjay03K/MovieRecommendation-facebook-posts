@@ -16,7 +16,6 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //PORT
-const port = 3000
 
 app.get('/', (req, res) => {
      facebook.get_fb_posts((results)=>{
@@ -59,6 +58,4 @@ app.post('/recieve_posts_ui',(req,res)=>{
   });
 })
 
-app.listen(port, () => {
-  console.log(`\nApp running in port : ${port}`)
-})
+app.listen(process.env.PORT || 5000)
