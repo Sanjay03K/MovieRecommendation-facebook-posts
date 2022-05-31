@@ -40,7 +40,7 @@ function get_movie_details(movie, posts, likes, callback) {
             value = likes[i];
         }
         if (i == likes.length-1){
-            var final_list = {"name" : movie, "likability" : value}
+            var final_list = {"name" : movie}
             return callback(final_list);
         }
     }
