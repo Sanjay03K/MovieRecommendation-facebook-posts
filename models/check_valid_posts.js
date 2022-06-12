@@ -1,18 +1,6 @@
 const readXlsxFile = require('read-excel-file/node')
 const similarity = require('string-cosine-similarity')
 
-//Labels for videos 
-const movie_likability = [
-    "good",
-    "best",
-    "awesome",
-    "worst",
-    "bad",
-    "wonderful",
-    "fantastic",
-    "awful"
-];
-
 function check_movies_in_posts(posts, callback) {
     var obtained_movies = [];
     readXlsxFile('./excels/movies.xlsx').then((rows) => {
@@ -21,7 +9,7 @@ function check_movies_in_posts(posts, callback) {
                 var lower_posts = posts[i].toLowerCase();
                 var lower_movies = rows[j][1].toLowerCase();
                 if (lower_posts.indexOf(lower_movies)!=-1) {
-                    get_movie_details(rows[j][1], lower_posts, movie_likability, (results)=>{
+                    get_movie_details(rows[j][1], lower_posts, (results)=>{
                         obtained_movies.push(results)
                     })
                 }                
@@ -33,17 +21,9 @@ function check_movies_in_posts(posts, callback) {
     })
 }
 
-function get_movie_details(movie, posts, likes, callback) {
-    var value = null;
-    for (let i = 0; i < likes.length; i++) {
-        if(posts.indexOf(likes[i])!=-1){
-            value = likes[i];
-        }
-        if (i == likes.length-1){
-            var final_list = {"Movie Name" : movie}
-            return callback(final_list);
-        }
-    }
+function get_movie_details(movie, posts, callback) {   
+    var final_list = {"Movie Name" : movie, "post" : posts}
+    return callback(final_list);
 }
 
 module.exports = { check_movies_in_posts : check_movies_in_posts }
