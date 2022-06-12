@@ -5,6 +5,7 @@ const bodyParser = require("body-parser"); //Middleware
 const facebook = require("./models/get_posts");
 const check = require("./models/check_valid_posts");
 var cors = require("cors");
+var request = require('request-promise');
 
 app.use(
   cors({
@@ -38,8 +39,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/recieve_posts_ui',(req,res)=>{
-  var postsUi = req.body.user;
-  postsUi =JSON.parse(postsUi);
+  var postsUi = req.body.posts;
+  postsUi = JSON.parse(postsUi);
   var arr_postsUi = [];
   for (let i = 0; i < postsUi.length; i++) {
     if (postsUi[i].message) {
@@ -50,7 +51,22 @@ app.post('/recieve_posts_ui',(req,res)=>{
   console.log(arr_postsUi);
   check.check_movies_in_posts(arr_postsUi, (result)=>{
     if (result.length!=0) {
-      res.send(result);
+      var options = {
+        method: 'POST',
+        uri: 'https://secure-plains-16459.herokuapp.com/getrec',
+        body: result,
+        json: true
+      };
+      request(options)
+      .then(function (parsedBody) {
+          let result;
+          result = parsedBody['result'];
+          console.log(result);
+          res.send(result);
+      })
+      .catch(function (err) {
+          console.log(err);
+      });
     }
     else{
       res.send("<h1>No movies available in FB posts</h1>")

@@ -17,6 +17,7 @@
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
     "read-excel-file": "^5.2.28",
+    "request-promise": "^4.2.6",
     "string-cosine-similarity": "^2.0.1"
   }
 }
